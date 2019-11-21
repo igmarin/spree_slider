@@ -10,6 +10,7 @@ class Spree::Slide < Spree::Base
   scope :location, -> (location) { joins(:slide_locations).where('spree_slide_locations.name = ?', location) }
 
   belongs_to :product, touch: true, optional: true
+  validates :image, presence: true
 
   acts_as_list
 
