@@ -9,7 +9,7 @@ class Spree::Slide < Spree::Base
   scope :published, -> { where(published: true).order('position ASC') }
   scope :location, -> (location) { joins(:slide_locations).where('spree_slide_locations.name = ?', location) }
 
-  belongs_to :product, touch: true
+  belongs_to :product, touch: true, optional: true
 
   acts_as_list
 
@@ -31,7 +31,7 @@ class Spree::Slide < Spree::Base
   end
 
   def slide_image
-    blob = image? ? image.attachment.blob : product.images.first.attachment.blob
+    blob = image? ? image.attachment.blob : Spree::Product.last.images.first.attachment.blob
     Rails.application.routes.url_helpers.rails_blob_url(blob, only_path: true)
   end
 
