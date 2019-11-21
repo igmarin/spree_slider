@@ -5,12 +5,12 @@ class Spree::Slide < Spree::Base
                           join_table: 'spree_slide_slide_locations'
 
   has_one_attached :image
+  validates :image, presence: true
 
   scope :published, -> { where(published: true).order('position ASC') }
   scope :location, -> (location) { joins(:slide_locations).where('spree_slide_locations.name = ?', location) }
 
   belongs_to :product, touch: true, optional: true
-  validates :image, presence: true
 
   acts_as_list
 
